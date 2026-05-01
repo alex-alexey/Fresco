@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app@latest . --typescript --eslint --tailwind --no-src-dir --app --import-alias \"@/*\" --no-turbopack --yes)",
+      "Bash(npm install *)",
+      "Bash(SKIP_ENV_VALIDATION=true npm run build)",
+      "Bash(npx shadcn@latest init --defaults --yes)"
+    ],
+    "additionalDirectories": [
+      "/Users/robertalexandru/VisualStudio/FrescoEnVivo/app/(vendor)/[tenantSlug]"
+    ]
+  }
+}
