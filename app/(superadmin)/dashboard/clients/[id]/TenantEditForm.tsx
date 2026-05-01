@@ -29,6 +29,9 @@ interface Tenant {
   name: string
   email: string
   slug: string
+  customDomain?: string | null
+  customDomainStatus?: string
+  customDomainVerifiedAt?: string | null
   status: string
   planId: { _id: string; name: string; priceCents: number; maxCameras: number } | null
   planStartedAt: string
@@ -40,6 +43,7 @@ interface Tenant {
 interface Props {
   tenant: Tenant
   plans: Plan[]
+  customDomainTarget: string
 }
 
 const STATUS_OPTIONS = [
@@ -54,15 +58,20 @@ const STATUS_BADGE: Record<string, "default" | "destructive" | "secondary"> = {
   pending: "secondary",
 }
 
-export function TenantEditForm({ tenant, plans }: Props) {
+export function TenantEditForm({ tenant, plans, customDomainTarget }: Props) {
   const router = useRouter()
   const [saving, setSaving] = useState(false)
+  const [verifyingDomain, setVerifyingDomain] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [domainMessage, setDomainMessage] = useState<string | null>(null)
 
   // General
   const [name, setName] = useState(tenant.name)
   const [email, setEmail] = useState(tenant.email)
+  const [customDomain, setCustomDomain] = useState(tenant.customDomain ?? "")
+  const [customDomainStatus, setCustomDomainStatus] = useState(tenant.customDomainStatus ?? "none")
+  const [customDomainVerifiedAt, setCustomDomainVerifiedAt] = useState(tenant.customDomainVerifiedAt ?? null)
   const [status, setStatus] = useState(tenant.status)
   const [planId, setPlanId] = useState(tenant.planId?._id ?? "")
   const [planExpiresAt, setPlanExpiresAt] = useState(
@@ -88,6 +97,7 @@ export function TenantEditForm({ tenant, plans }: Props) {
         body: JSON.stringify({
           name,
           email,
+          customDomain: customDomain.trim() || null,
           status,
           planId,
           planExpiresAt: planId !== tenant.planId?._id ? undefined : new Date(planExpiresAt).toISOString(),
@@ -108,7 +118,48 @@ export function TenantEditForm({ tenant, plans }: Props) {
     }
   }
 
+  async function handleVerifyDomain() {
+    setVerifyingDomain(true)
+    setError(null)
+    setDomainMessage(null)
+    try {
+      const res = await fetch(`/api/superadmin/tenants/${tenant._id}/domain/verify`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ customDomain: customDomain.trim() || undefined }),
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        setError(data.error ?? "No se pudo verificar el dominio")
+        return
+      }
+
+      setCustomDomain(data.verification.normalizedDomain)
+      setCustomDomainStatus(data.verification.status)
+      setCustomDomainVerifiedAt(data.verification.verified ? new Date().toISOString() : null)
+      setDomainMessage(
+        data.verification.verified
+          ? `Dominio verificado correctamente. Ya apunta a ${data.verification.expectedTarget}.`
+          : data.verification.reason ?? `Aún no apunta a ${data.verification.expectedTarget}.`
+      )
+      router.refresh()
+    } catch {
+      setError("Error verificando el dominio")
+    } finally {
+      setVerifyingDomain(false)
+    }
+  }
+
   const planChanged = planId !== (tenant.planId?._id ?? "")
+  const domainStatusLabel = {
+    none: "Sin configurar",
+    pending: "Pendiente",
+    active: "Verificado",
+    failed: "Con incidencias",
+  }[customDomainStatus] ?? customDomainStatus
+
+  const suggestedHost = customDomain.trim() || "www.tudominio.com"
+  const apexDomain = suggestedHost.replace(/^www\./, "")
 
   return (
     <div className="space-y-8 max-w-2xl">
@@ -147,6 +198,71 @@ export function TenantEditForm({ tenant, plans }: Props) {
               ))}
             </select>
           </div>
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-base font-semibold border-b pb-2">Dominio personalizado</h2>
+        <div className="space-y-1.5">
+          <Label>Dominio público opcional</Label>
+          <Input
+            value={customDomain}
+            onChange={(e) => setCustomDomain(e.target.value.toLowerCase().trim())}
+            placeholder="www.tudominio.com"
+          />
+          <p className="text-xs text-muted-foreground">
+            Recomendado: crea un CNAME desde el dominio del cliente hacia <strong>{customDomainTarget}</strong>.
+          </p>
+        </div>
+
+        <div className="rounded-lg border bg-muted/30 p-4 space-y-3">
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Configuración DNS recomendada</p>
+          <div className="grid grid-cols-3 gap-2 text-xs">
+            <p className="text-muted-foreground">Tipo</p>
+            <p className="text-muted-foreground">Host</p>
+            <p className="text-muted-foreground">Valor</p>
+
+            <code className="rounded bg-background px-2 py-1">CNAME</code>
+            <code className="rounded bg-background px-2 py-1">www</code>
+            <code className="rounded bg-background px-2 py-1 break-all">{customDomainTarget}</code>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            Después de guardar, en el DNS del cliente crea ese registro y pulsa <strong>Verificar DNS</strong>. Si usa dominio raíz ({apexDomain}),
+            necesitará ALIAS/ANAME o A según su proveedor DNS.
+          </p>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3">
+          <Badge variant={customDomainStatus === "active" ? "default" : customDomainStatus === "failed" ? "destructive" : "secondary"}>
+            {domainStatusLabel}
+          </Badge>
+          {customDomainVerifiedAt && (
+            <span className="text-xs text-muted-foreground">
+              Verificado el {new Date(customDomainVerifiedAt).toLocaleString("es-ES")}
+            </span>
+          )}
+        </div>
+
+        {domainMessage && (
+          <Alert>
+            <AlertDescription>{domainMessage}</AlertDescription>
+          </Alert>
+        )}
+
+        <div className="flex gap-3">
+          <Button type="button" variant="outline" onClick={handleVerifyDomain} disabled={verifyingDomain || !customDomain.trim()}>
+            {verifyingDomain ? "Verificando…" : "Verificar DNS"}
+          </Button>
+          {customDomainStatus === "active" && customDomain && (
+            <a
+              href={`https://${customDomain}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-muted-foreground border rounded-md px-3 py-2 hover:bg-muted transition-colors"
+            >
+              Abrir dominio ↗
+            </a>
+          )}
         </div>
       </section>
 

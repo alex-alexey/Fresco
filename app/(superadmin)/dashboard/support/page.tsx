@@ -44,13 +44,14 @@ export default async function SupportPage() {
               <TableHead>Plan</TableHead>
               <TableHead>Estado</TableHead>
               <TableHead>URL</TableHead>
+              <TableHead>Dominio</TableHead>
               <TableHead>Alta</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {tenants.length === 0 && (
               <TableRow>
-                <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
+                <TableCell colSpan={6} className="text-center text-muted-foreground py-8">
                   Sin clientes registrados
                 </TableCell>
               </TableRow>
@@ -75,6 +76,9 @@ export default async function SupportPage() {
                 </TableCell>
                 <TableCell>
                   <code className="text-xs bg-muted px-1.5 py-0.5 rounded">/{t.slug}</code>
+                </TableCell>
+                <TableCell className="text-sm text-muted-foreground">
+                  {t.customDomain ?? "—"}
                 </TableCell>
                 <TableCell className="text-sm text-muted-foreground">
                   {new Date(t.createdAt).toLocaleDateString("es-ES")}

@@ -23,6 +23,8 @@ export type TenantRow = {
   name: string
   email: string
   slug: string
+  customDomain: string | null
+  customDomainStatus: string
   planName: string | null
   status: string
   createdAt: string
@@ -38,6 +40,7 @@ export function ClientsTable({ tenants }: { tenants: TenantRow[] }) {
           <TableRow>
             <TableHead>Negocio</TableHead>
             <TableHead>Slug / URL</TableHead>
+            <TableHead>Dominio</TableHead>
             <TableHead>Plan</TableHead>
             <TableHead>Estado</TableHead>
             <TableHead>Creado</TableHead>
@@ -56,6 +59,24 @@ export function ClientsTable({ tenants }: { tenants: TenantRow[] }) {
               </TableCell>
               <TableCell>
                 <code className="text-xs bg-muted px-1.5 py-0.5 rounded">/{t.slug}</code>
+              </TableCell>
+              <TableCell>
+                {t.customDomain ? (
+                  <div className="space-y-1">
+                    <p className="text-xs font-medium">{t.customDomain}</p>
+                    <Badge variant={t.customDomainStatus === "active" ? "default" : t.customDomainStatus === "failed" ? "destructive" : "secondary"}>
+                      {t.customDomainStatus === "active"
+                        ? "Verificado"
+                        : t.customDomainStatus === "pending"
+                          ? "Pendiente"
+                          : t.customDomainStatus === "failed"
+                            ? "Con incidencias"
+                            : "Sin configurar"}
+                    </Badge>
+                  </div>
+                ) : (
+                  <span className="text-xs text-muted-foreground">—</span>
+                )}
               </TableCell>
               <TableCell>
                 <span className="text-sm">{t.planName ?? "—"}</span>

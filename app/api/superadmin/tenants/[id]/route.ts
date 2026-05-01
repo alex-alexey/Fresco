@@ -4,11 +4,13 @@ import { auth } from "@/lib/auth"
 import { connectDB } from "@/lib/db/mongodb"
 import { Tenant } from "@/lib/db/models/Tenant"
 import { Plan } from "@/lib/db/models/Plan"
+import { getAppHost, normalizeDomainInput } from "@/lib/domains"
 import { parseBody, forbiddenResponse, unauthorizedResponse } from "@/lib/validate"
 
 const UpdateTenantSchema = z.object({
   name: z.string().min(2).max(100).trim().optional(),
   email: z.string().email().optional(),
+  customDomain: z.string().max(255).trim().nullable().optional(),
   status: z.enum(["active", "suspended", "pending"]).optional(),
   planId: z.string().regex(/^[0-9a-f]{24}$/).optional(),
   planExpiresAt: z.string().datetime().optional(),
@@ -50,14 +52,47 @@ export async function PATCH(req: Request, { params }: RouteParams) {
 
   await connectDB()
 
+  const existingTenant = await Tenant.findById(id).lean()
+  if (!existingTenant) return NextResponse.json({ error: "Cliente no encontrado" }, { status: 404 })
+
   const update: Record<string, unknown> = {}
-  const { name, email, status, planId, planExpiresAt, billing } = body.data
+  const { name, email, customDomain, status, planId, planExpiresAt, billing } = body.data
 
   if (name) update.name = name
   if (email) update.email = email
   if (status) update.status = status
   if (planExpiresAt) update.planExpiresAt = new Date(planExpiresAt)
   if (billing) update.billing = billing
+
+  if (customDomain !== undefined) {
+    if (!customDomain) {
+      update.customDomain = null
+      update.customDomainStatus = "none"
+      update.customDomainVerifiedAt = null
+    } else {
+      let normalizedDomain: string
+      try {
+        normalizedDomain = normalizeDomainInput(customDomain)
+      } catch (error) {
+        return NextResponse.json({ error: error instanceof Error ? error.message : "Dominio inválido" }, { status: 400 })
+      }
+
+      if (normalizedDomain === getAppHost()) {
+        return NextResponse.json({ error: "Ese dominio ya pertenece a la plataforma" }, { status: 400 })
+      }
+
+      const existingTenant = await Tenant.findOne({ _id: { $ne: id }, customDomain: normalizedDomain }).lean()
+      if (existingTenant) {
+        return NextResponse.json({ error: "Ese dominio ya está asignado a otro cliente" }, { status: 409 })
+      }
+
+      update.customDomain = normalizedDomain
+      if (existingTenant!.customDomain !== normalizedDomain) {
+        update.customDomainStatus = "pending"
+        update.customDomainVerifiedAt = null
+      }
+    }
+  }
 
   if (planId) {
     const plan = await Plan.findById(planId).lean()

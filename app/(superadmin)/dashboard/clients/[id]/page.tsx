@@ -7,6 +7,7 @@ import { Plan } from "@/lib/db/models/Plan"
 import { Badge } from "@/components/ui/badge"
 import { TenantEditForm } from "./TenantEditForm"
 import type { IPlan } from "@/lib/db/models/Plan"
+import { env } from "@/lib/env"
 
 interface Props {
   params: Promise<{ id: string }>
@@ -70,6 +71,10 @@ export default async function TenantDetailPage({ params }: Props) {
           <p className="text-sm font-medium font-mono">/{tenant.slug}</p>
         </div>
         <div className="rounded-lg border p-3 space-y-0.5">
+          <p className="text-xs text-muted-foreground">Dominio</p>
+          <p className="text-sm font-medium">{tenant.customDomain ?? "—"}</p>
+        </div>
+        <div className="rounded-lg border p-3 space-y-0.5">
           <p className="text-xs text-muted-foreground">Plan</p>
           <p className="text-sm font-medium">{(tenant.planId as unknown as IPlan)?.name ?? "—"}</p>
         </div>
@@ -103,6 +108,16 @@ export default async function TenantDetailPage({ params }: Props) {
         >
           Panel del vendor ↗
         </a>
+        {tenant.customDomain && tenant.customDomainStatus === "active" && (
+          <a
+            href={`https://${tenant.customDomain}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-muted-foreground border rounded-md px-3 py-1.5 hover:bg-muted transition-colors"
+          >
+            Dominio público ↗
+          </a>
+        )}
       </div>
 
       <hr className="border-border" />
@@ -112,6 +127,7 @@ export default async function TenantDetailPage({ params }: Props) {
         key={serialized.updatedAt}
         tenant={serialized}
         plans={serializedPlans}
+        customDomainTarget={env.CUSTOM_DOMAIN_TARGET ?? new URL(env.NEXT_PUBLIC_APP_URL).host}
       />
     </div>
   )

@@ -41,6 +41,8 @@ export default async function ClientsPage() {
     name: t.name,
     email: t.email,
     slug: t.slug,
+    customDomain: t.customDomain ?? null,
+    customDomainStatus: t.customDomainStatus ?? "none",
     planName: (t.planId as unknown as IPlan)?.name ?? null,
     status: t.status,
     createdAt: formatDate(t.createdAt),

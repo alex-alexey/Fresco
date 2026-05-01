@@ -8,6 +8,8 @@ import { setupTenant } from "@/lib/db/tenant"
 import { sanitizeSlug, tenantDbName } from "@/lib/slug"
 import { parseBody, forbiddenResponse, unauthorizedResponse, rateLimitResponse } from "@/lib/validate"
 import { apiRateLimit, getIp } from "@/lib/rate-limit"
+import { sendTenantWelcomeEmail } from "@/lib/email/mailer"
+import { env } from "@/lib/env"
 
 const CreateTenantSchema = z.object({
   name: z.string().min(2).max(100).trim(),
@@ -90,7 +92,32 @@ export async function POST(req: Request) {
 
   try {
     const tempPassword = await setupTenant(slug, email, name)
-    return NextResponse.json({ tenant, tempPassword }, { status: 201 })
+    const appUrl = env.NEXT_PUBLIC_APP_URL.replace(/\/$/, "")
+    const loginUrl = `${appUrl}/${slug}/login`
+    const welcomeEmail = await sendTenantWelcomeEmail({
+      to: email,
+      tenantName: name,
+      tenantSlug: slug,
+      password: tempPassword,
+      loginUrl,
+    })
+
+    if (!welcomeEmail.sent) {
+      console.warn("Welcome email not sent:", {
+        tenantId: tenant._id.toString(),
+        email,
+        error: welcomeEmail.error,
+      })
+    }
+
+    return NextResponse.json(
+      {
+        tenant,
+        tempPassword,
+        welcomeEmailSent: welcomeEmail.sent,
+      },
+      { status: 201 }
+    )
   } catch (err) {
     await Tenant.deleteOne({ _id: tenant._id })
     console.error("Tenant provisioning failed:", err)

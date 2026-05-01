@@ -26,7 +26,7 @@ function toSlug(name: string): string {
     .substring(0, 50)
 }
 
-type CredentialsResult = { tempPassword: string; slug: string; email: string }
+type CredentialsResult = { tempPassword: string; slug: string; email: string; welcomeEmailSent: boolean }
 
 function CopyField({ label, value }: { label: string; value: string }) {
   const [copied, setCopied] = useState(false)
@@ -101,7 +101,12 @@ export function CreateTenantDialog({ plans }: { plans: Plan[] }) {
       })
       const data = await res.json()
       if (!res.ok) { setError(data.error ?? "Error al crear el cliente"); return }
-      setCredentials({ tempPassword: data.tempPassword, slug, email })
+      setCredentials({
+        tempPassword: data.tempPassword,
+        slug,
+        email,
+        welcomeEmailSent: Boolean(data.welcomeEmailSent),
+      })
       router.refresh()
     } catch {
       setError("Error de conexión. Inténtalo de nuevo.")
@@ -137,6 +142,13 @@ export function CreateTenantDialog({ plans }: { plans: Plan[] }) {
                     El cliente debe cambiar esta contraseña en su primer acceso.
                   </AlertDescription>
                 </Alert>
+                {!credentials.welcomeEmailSent && (
+                  <Alert variant="destructive">
+                    <AlertDescription className="text-xs">
+                      No se pudo enviar el email de bienvenida. Comparte estas credenciales manualmente.
+                    </AlertDescription>
+                  </Alert>
+                )}
               </div>
 
               <DialogFooter>
