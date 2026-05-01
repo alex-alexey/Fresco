@@ -24,9 +24,9 @@ export default async function LandingPage() {
 
   return (
     <main className="landing-shell relative overflow-x-clip">
-      <div className="landing-grid-overlay pointer-events-none absolute inset-x-0 top-0 h-[520px]" />
+      <div className="landing-grid-overlay pointer-events-none absolute inset-x-0 top-0 h-130" />
       <div className="pointer-events-none absolute -left-24 top-36 h-72 w-72 rounded-full bg-emerald-200/40 blur-3xl" />
-      <div className="pointer-events-none absolute -right-24 top-[420px] h-80 w-80 rounded-full bg-cyan-200/40 blur-3xl" />
+      <div className="pointer-events-none absolute -right-24 top-105 h-80 w-80 rounded-full bg-cyan-200/40 blur-3xl" />
       <Navbar />
       <Hero />
       <HowItWorks />

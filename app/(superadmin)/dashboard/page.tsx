@@ -162,7 +162,7 @@ export default async function DashboardPage() {
                         <p className="text-sm font-medium truncate">{t.name}</p>
                         <p className="text-xs text-muted-foreground truncate">{t.email}</p>
                       </div>
-                      <div className="flex items-center gap-3 flex-shrink-0 ml-4">
+                      <div className="flex items-center gap-3 shrink-0 ml-4">
                         <span className="text-xs text-muted-foreground hidden sm:block">
                           {t.planName ?? "—"}
                         </span>
@@ -183,7 +183,7 @@ export default async function DashboardPage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center gap-2 pb-3 space-y-0">
-            <Clock className="w-4 h-4 text-amber-500 flex-shrink-0" />
+            <Clock className="w-4 h-4 text-amber-500 shrink-0" />
             <CardTitle className="text-sm font-semibold">Vencen pronto</CardTitle>
           </CardHeader>
           <CardContent className="p-0">

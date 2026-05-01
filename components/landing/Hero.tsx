@@ -28,17 +28,17 @@ function LiveMockup() {
 
           {/* Camera feeds */}
           <div className="grid grid-cols-2 gap-2 sm:gap-3">
-            <div className="aspect-video rounded-xl bg-gradient-to-br from-gray-800 to-gray-900 relative overflow-hidden">
+            <div className="aspect-video rounded-xl bg-linear-to-br from-gray-800 to-gray-900 relative overflow-hidden">
               <div className="absolute inset-0 flex items-end p-2">
                 <span className="text-xs text-white/70 bg-black/40 px-1.5 py-0.5 rounded-md">Mostrador</span>
               </div>
-              <div className="absolute inset-0 bg-gradient-to-br from-green-900/20 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-br from-green-900/20 to-transparent" />
             </div>
-            <div className="aspect-video rounded-xl bg-gradient-to-br from-gray-700 to-gray-800 relative overflow-hidden">
+            <div className="aspect-video rounded-xl bg-linear-to-br from-gray-700 to-gray-800 relative overflow-hidden">
               <div className="absolute inset-0 flex items-end p-2">
                 <span className="text-xs text-white/70 bg-black/40 px-1.5 py-0.5 rounded-md">Vitrina</span>
               </div>
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-br from-blue-900/20 to-transparent" />
             </div>
           </div>
 
@@ -74,8 +74,8 @@ function LiveMockup() {
 export function Hero() {
   return (
     <section className="relative min-h-screen flex flex-col justify-center pt-24 pb-16 px-6 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-emerald-50/60 via-white to-white pointer-events-none" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-emerald-100/50 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute inset-0 bg-linear-to-b from-emerald-50/60 via-white to-white pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-200 h-125 bg-emerald-100/50 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative max-w-6xl mx-auto w-full">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">

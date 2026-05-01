@@ -43,7 +43,7 @@ export function Navbar() {
         <div className="max-w-6xl mx-auto px-6 py-3">
           <div className="h-14 rounded-full border border-white/70 bg-white/75 shadow-lg shadow-emerald-100/40 backdrop-blur-xl px-5 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5">
-            <span className="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-sm">
+            <span className="w-7 h-7 rounded-lg bg-linear-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-sm">
               <span className="w-2.5 h-2.5 rounded-full bg-white" />
             </span>
             <span className="font-semibold text-lg tracking-tight text-slate-800">FrescoEnVivo</span>

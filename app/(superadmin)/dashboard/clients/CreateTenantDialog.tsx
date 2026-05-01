@@ -40,7 +40,7 @@ function CopyField({ label, value }: { label: string; value: string }) {
       <p className="text-xs text-muted-foreground">{label}</p>
       <div className="flex items-center gap-2">
         <code className="flex-1 bg-muted px-3 py-2 rounded text-xs break-all">{value}</code>
-        <Button type="button" variant="ghost" size="icon" className="h-8 w-8 flex-shrink-0" onClick={copy}>
+        <Button type="button" variant="ghost" size="icon" className="h-8 w-8 shrink-0" onClick={copy}>
           {copied ? <Check className="w-3.5 h-3.5 text-green-600" /> : <Copy className="w-3.5 h-3.5" />}
         </Button>
       </div>
