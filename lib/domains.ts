@@ -47,7 +47,12 @@ export function isPrimaryAppHost(host: string): boolean {
   const normalized = normalizeHost(host)
   const appHost = getAppHost()
 
-  return normalized === appHost || normalized === "localhost" || normalized.startsWith("127.0.0.1")
+  return (
+    normalized === appHost
+    || normalized === "localhost"
+    || normalized.startsWith("127.0.0.1")
+    || normalized.endsWith(".onrender.com")
+  )
 }
 
 export async function resolveTenantFromHost(host: string): Promise<ITenant | null> {
