@@ -156,10 +156,10 @@ export function Hero() {
               className="flex flex-col sm:flex-row flex-wrap justify-center lg:justify-start gap-3"
             >
               <a
-                href="#precios"
+                href="#contacto"
                 className="inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-full transition-colors text-sm"
               >
-                Empieza gratis
+                Contactar ahora
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
@@ -178,7 +178,7 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.6 }}
               className="flex flex-wrap justify-center lg:justify-start items-center gap-4 sm:gap-6 text-sm text-gray-400"
             >
-              {["Sin tarjeta de crédito", "14 días gratis", "Cancela cuando quieras"].map((text) => (
+              {["Instalación con hardware incluido", "Demo personalizada", "Soporte de puesta en marcha"].map((text) => (
                 <span key={text} className="flex items-center gap-1.5">
                   <svg className="w-4 h-4 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />

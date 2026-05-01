@@ -15,14 +15,14 @@ export function CtaSection() {
                 ¿Listo para vender en directo?
               </h2>
               <p className="text-white/80 text-lg mb-8 max-w-md mx-auto">
-                Empieza hoy con 14 días gratuitos. Sin tarjeta de crédito. Cancela cuando quieras.
+                Agenda una demo y te preparamos una propuesta adaptada a tu tienda y hardware.
               </p>
               <div className="flex flex-wrap justify-center gap-3">
                 <a
-                  href="#precios"
+                  href="#contacto"
                   className="inline-flex items-center gap-2 bg-white text-green-600 font-semibold px-7 py-3.5 rounded-full hover:bg-green-50 transition-colors text-sm"
                 >
-                  Empieza gratis
+                  Contactar ahora
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>

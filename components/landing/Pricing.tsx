@@ -6,7 +6,7 @@ const PLANS = [
     price: "29",
     description: "Para empezar a vender en directo sin complicaciones.",
     features: ["1 cámara", "Cola hasta 10 turnos", "Página pública", "Soporte por email"],
-    cta: "Empieza gratis",
+    cta: "Contactar ahora",
     highlighted: false,
   },
   {
@@ -14,7 +14,7 @@ const PLANS = [
     price: "59",
     description: "Para negocios con más volumen y más de una cámara.",
     features: ["3 cámaras simultáneas", "Cola ilimitada", "Analytics básicos", "Soporte por email"],
-    cta: "Empieza gratis",
+    cta: "Contactar ahora",
     highlighted: true,
   },
   {
@@ -22,7 +22,7 @@ const PLANS = [
     price: "99",
     description: "Máximo rendimiento y soporte prioritario.",
     features: ["4 cámaras simultáneas", "Cola ilimitada", "Analytics avanzados", "Soporte prioritario"],
-    cta: "Empieza gratis",
+    cta: "Contactar ahora",
     highlighted: false,
   },
 ]
@@ -34,7 +34,7 @@ export function Pricing() {
         <FadeIn className="text-center mb-16">
           <span className="text-xs font-semibold text-green-600 uppercase tracking-widest">Precios</span>
           <h2 className="text-4xl font-bold text-gray-900 mt-3">Sin letra pequeña</h2>
-          <p className="text-gray-500 mt-4">14 días gratis en todos los planes. Sin tarjeta de crédito.</p>
+          <p className="text-gray-500 mt-4">Incluye despliegue e integración con hardware desde el primer día.</p>
         </FadeIn>
 
         <div className="grid md:grid-cols-3 gap-6 items-start">

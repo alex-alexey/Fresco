@@ -67,10 +67,10 @@ export function Navbar() {
 
           <div className="flex items-center gap-3">
             <a
-              href="#precios"
+              href="#contacto"
               className="text-sm font-medium bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full transition-colors hidden md:block"
             >
-              Empieza gratis
+              Contactar ahora
             </a>
 
             {/* Hamburger */}
@@ -121,11 +121,11 @@ export function Navbar() {
                 ))}
                 <div className="pt-4 flex flex-col gap-2">
                   <a
-                    href="#precios"
+                    href="#contacto"
                     onClick={handleNavClick}
                     className="text-sm text-center font-medium bg-green-500 hover:bg-green-600 text-white py-2.5 rounded-full transition-colors"
                   >
-                    Empieza gratis
+                    Contactar ahora
                   </a>
                 </div>
               </nav>

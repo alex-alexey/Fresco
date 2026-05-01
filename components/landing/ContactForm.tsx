@@ -11,17 +11,37 @@ export function ContactForm() {
   const [email, setEmail] = useState("")
   const [message, setMessage] = useState("")
   const [status, setStatus] = useState<Status>("idle")
+  const [errorMessage, setErrorMessage] = useState("")
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setStatus("loading")
+    setErrorMessage("")
 
-    // Simulated send — replace with real API when ready
-    await new Promise((r) => setTimeout(r, 1200))
-    setStatus("success")
-    setName("")
-    setEmail("")
-    setMessage("")
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          message: message.trim(),
+        }),
+      })
+
+      if (!response.ok) {
+        const payload = (await response.json().catch(() => null)) as { error?: string } | null
+        throw new Error(payload?.error ?? "No hemos podido enviar tu mensaje.")
+      }
+
+      setStatus("success")
+      setName("")
+      setEmail("")
+      setMessage("")
+    } catch (error) {
+      setStatus("error")
+      setErrorMessage(error instanceof Error ? error.message : "No hemos podido enviar tu mensaje.")
+    }
   }
 
   return (
@@ -60,7 +80,7 @@ export function ContactForm() {
                 },
               ].map((item) => (
                 <div key={item.label} className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center text-green-600 flex-shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center text-green-600 shrink-0">
                     {item.icon}
                   </div>
                   <div>
@@ -136,6 +156,12 @@ export function ContactForm() {
                       className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm outline-none focus:border-green-400 focus:ring-2 focus:ring-green-100 transition-all resize-none disabled:opacity-50"
                     />
                   </div>
+
+                  {status === "error" && (
+                    <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                      {errorMessage || "No hemos podido enviar tu mensaje. Intentalo de nuevo."}
+                    </p>
+                  )}
 
                   <button
                     type="submit"
