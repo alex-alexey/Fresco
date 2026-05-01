@@ -45,12 +45,12 @@ export function ContactForm() {
   }
 
   return (
-    <section id="contacto" className="py-24 px-6 bg-gray-50">
+    <section id="contacto" className="py-24 px-6 bg-slate-50/60">
       <div className="max-w-6xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
           {/* Left */}
           <FadeIn direction="left">
-            <span className="text-xs font-semibold text-green-600 uppercase tracking-widest">Contacto</span>
+            <span className="text-xs font-semibold text-emerald-700 uppercase tracking-widest">Contacto</span>
             <h2 className="text-4xl font-bold text-gray-900 mt-3 mb-4">
               ¿Tienes alguna pregunta?
             </h2>
@@ -80,7 +80,7 @@ export function ContactForm() {
                 },
               ].map((item) => (
                 <div key={item.label} className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center text-green-600 shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600 shrink-0">
                     {item.icon}
                   </div>
                   <div>
@@ -94,7 +94,7 @@ export function ContactForm() {
 
           {/* Form */}
           <FadeIn direction="right" delay={0.1}>
-            <div className="bg-white rounded-2xl border border-gray-100 p-8 shadow-sm">
+            <div className="bg-white rounded-3xl border border-slate-100 p-8 shadow-lg shadow-emerald-100/30">
               {status === "success" ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
@@ -110,7 +110,7 @@ export function ContactForm() {
                   <p className="text-sm text-gray-500">Te respondemos en menos de 24 horas.</p>
                   <button
                     onClick={() => setStatus("idle")}
-                    className="text-sm text-green-600 hover:text-green-700 font-medium mt-2"
+                    className="text-sm text-emerald-600 hover:text-emerald-700 font-medium mt-2"
                   >
                     Enviar otro mensaje
                   </button>
@@ -127,7 +127,7 @@ export function ContactForm() {
                         required
                         placeholder="Tu nombre"
                         disabled={status === "loading"}
-                        className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm outline-none focus:border-green-400 focus:ring-2 focus:ring-green-100 transition-all disabled:opacity-50"
+                        className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition-all disabled:opacity-50"
                       />
                     </div>
                     <div className="space-y-1.5">
@@ -139,7 +139,7 @@ export function ContactForm() {
                         required
                         placeholder="tu@email.com"
                         disabled={status === "loading"}
-                        className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm outline-none focus:border-green-400 focus:ring-2 focus:ring-green-100 transition-all disabled:opacity-50"
+                        className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition-all disabled:opacity-50"
                       />
                     </div>
                   </div>
@@ -153,7 +153,7 @@ export function ContactForm() {
                       rows={5}
                       placeholder="Cuéntanos en qué podemos ayudarte..."
                       disabled={status === "loading"}
-                      className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm outline-none focus:border-green-400 focus:ring-2 focus:ring-green-100 transition-all resize-none disabled:opacity-50"
+                      className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition-all resize-none disabled:opacity-50"
                     />
                   </div>
 
@@ -166,7 +166,7 @@ export function ContactForm() {
                   <button
                     type="submit"
                     disabled={status === "loading"}
-                    className="w-full bg-green-500 hover:bg-green-600 disabled:opacity-60 text-white font-semibold py-3 rounded-full transition-colors text-sm flex items-center justify-center gap-2"
+                    className="w-full bg-slate-900 hover:bg-slate-800 disabled:opacity-60 text-white font-semibold py-3 rounded-full transition-colors text-sm flex items-center justify-center gap-2"
                   >
                     {status === "loading" ? (
                       <>

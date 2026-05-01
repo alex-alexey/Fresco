@@ -20,38 +20,66 @@ async function seed() {
 
   const plans = [
     {
-      name: "Básico",
+      name: "Básico · Cuota",
       maxCameras: 1,
       maxQueue: 10,
-      features: ["1 cámara", "Cola hasta 10 turnos", "Soporte por email"],
+      features: ["1 cámara", "Cola hasta 10 turnos", "Soporte por email", "Alta e instalación inicial"],
       priceCents: 2900,
       hardwareCostCents: 56700,
       setupFeeCents: 74900,
+      billingMode: "setup+monthly",
+      permanenceMonths: 0,
     },
     {
-      name: "Pro",
+      name: "Pro · Cuota",
       maxCameras: 3,
       maxQueue: null,
-      features: ["3 cámaras", "Cola ilimitada", "Analytics básicos", "Soporte por email"],
+      features: ["3 cámaras", "Cola ilimitada", "Informes de actividad", "Soporte por email", "Alta e instalación inicial"],
       priceCents: 5900,
       hardwareCostCents: 77300,
       setupFeeCents: 99900,
+      billingMode: "setup+monthly",
+      permanenceMonths: 0,
     },
     {
-      name: "Business",
+      name: "Business · Cuota",
       maxCameras: 4,
       maxQueue: null,
-      features: ["4 cámaras", "Cola ilimitada", "Analytics avanzados", "Soporte prioritario"],
+      features: ["4 cámaras", "Cola ilimitada", "Informes avanzados", "Soporte prioritario", "Alta e instalación inicial"],
       priceCents: 9900,
       hardwareCostCents: 87600,
       setupFeeCents: 114900,
+      billingMode: "setup+monthly",
+      permanenceMonths: 0,
+    },
+    {
+      name: "Pro · Hardware incluido 24m",
+      maxCameras: 3,
+      maxQueue: null,
+      features: ["3 cámaras", "Cola ilimitada", "Informes de actividad", "Soporte por email", "Sin pago inicial de hardware"],
+      priceCents: 9900,
+      hardwareCostCents: 77300,
+      setupFeeCents: 0,
+      billingMode: "monthly-included",
+      permanenceMonths: 24,
+    },
+    {
+      name: "Business · Hardware incluido 24m",
+      maxCameras: 4,
+      maxQueue: null,
+      features: ["4 cámaras", "Cola ilimitada", "Informes avanzados", "Soporte prioritario", "Sin pago inicial de hardware"],
+      priceCents: 14900,
+      hardwareCostCents: 87600,
+      setupFeeCents: 0,
+      billingMode: "monthly-included",
+      permanenceMonths: 24,
     },
   ]
 
   for (const plan of plans) {
     await Plan.findOneAndUpdate({ name: plan.name }, { $set: plan }, { upsert: true })
   }
-  console.warn("✓ 3 planes sincronizados")
+  console.warn(`✓ ${plans.length} planes sincronizados`)
 
   const adminEmail = process.env.SUPERADMIN_INITIAL_EMAIL
   const adminPassword = process.env.SUPERADMIN_INITIAL_PASSWORD

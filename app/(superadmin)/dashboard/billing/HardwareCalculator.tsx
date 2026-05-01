@@ -20,6 +20,8 @@ export type HardwarePlan = {
   name: string
   maxCameras: number
   setupFeeCents: number
+  monthlyPriceCents: number
+  permanenceMonths: number
 }
 
 export type Quantities = Record<string, Record<string, number>>
@@ -88,11 +90,11 @@ export function HardwareCalculator({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="min-w-[160px]">Componente</TableHead>
-              <TableHead className="min-w-[190px] text-muted-foreground">Modelo</TableHead>
+              <TableHead className="min-w-40">Componente</TableHead>
+              <TableHead className="min-w-48 text-muted-foreground">Modelo</TableHead>
               <TableHead className="text-right">Precio unit.</TableHead>
               {plans.map((p) => (
-                <TableHead key={p.id} className="text-center min-w-[110px]">
+                <TableHead key={p.id} className="text-center min-w-28">
                   <span className="font-semibold">{p.name}</span>
                 </TableHead>
               ))}
@@ -183,6 +185,37 @@ export function HardwareCalculator({
                     )}
                   >
                     {margin >= 0 ? "+" : ""}{(margin / 100).toFixed(0)}€
+                  </TableCell>
+                )
+              })}
+            </TableRow>
+
+            {/* Recuperación financiada */}
+            <TableRow className="bg-muted/30">
+              <TableCell colSpan={3} className="text-xs text-muted-foreground">
+                Margen por permanencia
+              </TableCell>
+              {plans.map((p) => {
+                if (!p.permanenceMonths) {
+                  return (
+                    <TableCell key={p.id} className="text-center text-xs text-muted-foreground">
+                      —
+                    </TableCell>
+                  )
+                }
+
+                const kitCost = planKitCost(components, quantities, p.id)
+                const margin = p.monthlyPriceCents * p.permanenceMonths - kitCost
+                return (
+                  <TableCell
+                    key={p.id}
+                    className={cn(
+                      "text-center text-xs font-semibold",
+                      margin >= 0 ? "text-green-600" : "text-destructive"
+                    )}
+                  >
+                    {margin >= 0 ? "+" : ""}{(margin / 100).toFixed(0)}€
+                    <span className="block text-[10px] text-muted-foreground">{p.permanenceMonths} meses</span>
                   </TableCell>
                 )
               })}

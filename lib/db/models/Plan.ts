@@ -11,6 +11,8 @@ export interface IPlan {
   isActive: boolean
   hardwareCostCents: number
   setupFeeCents: number
+  billingMode?: "setup+monthly" | "monthly-included"
+  permanenceMonths?: number
 }
 
 const PlanSchema = new Schema<IPlan>(
@@ -24,6 +26,8 @@ const PlanSchema = new Schema<IPlan>(
     isActive: { type: Boolean, default: true },
     hardwareCostCents: { type: Number, default: 0 },
     setupFeeCents: { type: Number, default: 0 },
+    billingMode: { type: String, enum: ["setup+monthly", "monthly-included"], default: "setup+monthly" },
+    permanenceMonths: { type: Number, default: 0 },
   },
   { timestamps: true }
 )

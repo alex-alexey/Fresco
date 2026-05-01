@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-    --font-heading: var(--font-sans);
+  --font-heading: var(--font-display);
     --font-sans: var(--font-sans);
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
@@ -126,4 +126,28 @@
   html {
     @apply font-sans;
     }
+}
+
+@layer utilities {
+  .landing-shell {
+    background:
+      radial-gradient(circle at 8% -10%, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0) 38%),
+      radial-gradient(circle at 86% 2%, rgba(20, 184, 166, 0.16) 0%, rgba(20, 184, 166, 0) 32%),
+      linear-gradient(180deg, #f6fbf8 0%, #ffffff 26%, #f8fafc 100%);
+  }
+
+  .landing-shell h1,
+  .landing-shell h2,
+  .landing-shell h3 {
+    font-family: var(--font-heading), serif;
+    letter-spacing: -0.02em;
+  }
+
+  .landing-grid-overlay {
+    background-image:
+      linear-gradient(to right, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), transparent 75%);
+  }
 }

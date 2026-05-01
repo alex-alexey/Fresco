@@ -25,7 +25,7 @@ const HARDWARE_COMPONENTS: HardwareComponent[] = [
 async function getData() {
   await connectDB()
   const [tenants, plans] = await Promise.all([
-    Tenant.find().populate<{ planId: IPlan }>("planId", "name priceCents hardwareCostCents setupFeeCents").lean(),
+    Tenant.find().populate<{ planId: IPlan }>("planId", "name priceCents hardwareCostCents setupFeeCents billingMode permanenceMonths").lean(),
     Plan.find({ isActive: true }).sort({ priceCents: 1 }).lean(),
   ])
   return { tenants, plans }
@@ -51,6 +51,8 @@ export default async function BillingPage() {
       hardwareCostCents: p.hardwareCostCents ?? 0,
       setupFeeCents: p.setupFeeCents ?? 0,
       maxCameras: p.maxCameras,
+      billingMode: p.billingMode ?? "setup+monthly",
+      permanenceMonths: p.permanenceMonths ?? 0,
       count: planTenants.length,
     }
   })
@@ -97,6 +99,7 @@ export default async function BillingPage() {
             <TableHeader>
               <TableRow>
                 <TableHead>Plan</TableHead>
+                <TableHead>Modalidad</TableHead>
                 <TableHead>Precio/mes</TableHead>
                 <TableHead>Clientes</TableHead>
                 <TableHead className="text-right">MRR parcial</TableHead>
@@ -106,6 +109,11 @@ export default async function BillingPage() {
               {byPlan.map((p) => (
                 <TableRow key={p.id}>
                   <TableCell className="font-medium">{p.name}</TableCell>
+                  <TableCell className="text-muted-foreground text-xs">
+                    {p.billingMode === "monthly-included"
+                      ? `Hardware incluido${p.permanenceMonths ? ` · ${p.permanenceMonths}m` : ""}`
+                      : "Alta + cuota"}
+                  </TableCell>
                   <TableCell>{(p.priceCents / 100).toFixed(0)}€/mes</TableCell>
                   <TableCell><Badge variant="secondary">{p.count}</Badge></TableCell>
                   <TableCell className="text-right font-medium">
@@ -114,7 +122,7 @@ export default async function BillingPage() {
                 </TableRow>
               ))}
               <TableRow className="bg-muted/50 font-semibold">
-                <TableCell colSpan={3}>Total MRR</TableCell>
+                <TableCell colSpan={4}>Total MRR</TableCell>
                 <TableCell className="text-right text-blue-600">{(mrr / 100).toFixed(0)}€</TableCell>
               </TableRow>
             </TableBody>
@@ -178,6 +186,8 @@ export default async function BillingPage() {
           name: p.name,
           maxCameras: p.maxCameras,
           setupFeeCents: p.setupFeeCents,
+          monthlyPriceCents: p.priceCents,
+          permanenceMonths: p.permanenceMonths,
         }))}
       />
     </div>

@@ -1,11 +1,12 @@
 import type { Metadata } from "next"
 import "./globals.css"
-import { Geist } from "next/font/google"
+import { Manrope, DM_Serif_Display } from "next/font/google"
 import { cn } from "@/lib/utils"
 import { Providers } from "./providers"
 import { Toaster } from "@/components/ui/sonner"
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
+const manrope = Manrope({ subsets: ["latin"], variable: "--font-sans" })
+const dmSerifDisplay = DM_Serif_Display({ subsets: ["latin"], weight: "400", variable: "--font-display" })
 
 export const metadata: Metadata = {
   title: "FrescoEnVivo",
@@ -14,8 +15,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={cn("font-sans", geist.variable)}>
-      <body>
+    <html lang="es" className={cn("font-sans", manrope.variable, dmSerifDisplay.variable)}>
+      <body className="antialiased">
         <Providers>{children}</Providers>
         <Toaster richColors position="top-right" />
       </body>

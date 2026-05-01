@@ -14,7 +14,7 @@ const STEPS = [
   {
     number: "02",
     title: "Conecta tu cámara",
-    description: "Usa cualquier cámara USB o webcam directamente desde el navegador. Sin instalar nada, sin configuraciones complejas.",
+    description: "Preparamos tu equipo para emitir en directo con una puesta en marcha rápida y guiada.",
     icon: (
       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.36a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -38,24 +38,24 @@ export function HowItWorks() {
     <section id="como-funciona" className="py-24 px-6">
       <div className="max-w-6xl mx-auto">
         <FadeIn className="text-center mb-16">
-          <span className="text-xs font-semibold text-green-600 uppercase tracking-widest">Cómo funciona</span>
+          <span className="text-xs font-semibold text-emerald-700 uppercase tracking-widest">Cómo funciona</span>
           <h2 className="text-4xl font-bold text-gray-900 mt-3">
-            En tres pasos, en directo
+            Implantación simple, venta inmediata
           </h2>
-          <p className="text-gray-500 mt-4 max-w-md mx-auto">
-            Diseñado para negocios de barrio. Nada de tecnología complicada.
+          <p className="text-slate-500 mt-4 max-w-xl mx-auto">
+            Diseñado para negocios de barrio. Te acompañamos desde la configuración inicial hasta la primera venta en vivo.
           </p>
         </FadeIn>
 
         <div className="grid md:grid-cols-3 gap-8 relative">
           {/* Connector line */}
-          <div className="hidden md:block absolute top-10 left-1/3 right-1/3 h-px bg-gradient-to-r from-green-200 via-green-300 to-green-200" />
+          <div className="hidden md:block absolute top-10 left-1/3 right-1/3 h-px bg-linear-to-r from-emerald-200 via-cyan-300 to-emerald-200" />
 
           {STEPS.map((step, i) => (
             <FadeIn key={step.number} delay={i * 0.15} className="relative">
-              <div className="bg-white rounded-2xl border border-gray-100 p-8 hover:border-green-200 hover:shadow-lg hover:shadow-green-50 transition-all duration-300">
+              <div className="bg-white/90 rounded-3xl border border-slate-100 p-8 hover:border-emerald-200 hover:shadow-xl hover:shadow-emerald-100/40 transition-all duration-300">
                 <div className="flex items-start justify-between mb-6">
-                  <div className="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center text-green-600">
+                  <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
                     {step.icon}
                   </div>
                   <span className="text-4xl font-bold text-gray-100">{step.number}</span>

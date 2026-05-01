@@ -5,6 +5,8 @@ const PLANS = [
     name: "Básico",
     price: "29",
     description: "Para empezar a vender en directo sin complicaciones.",
+    mode: "Con alta inicial",
+    note: "Desde 749€ de alta (hardware + instalación)",
     features: ["1 cámara", "Cola hasta 10 turnos", "Página pública", "Soporte por email"],
     cta: "Contactar ahora",
     highlighted: false,
@@ -13,7 +15,9 @@ const PLANS = [
     name: "Pro",
     price: "59",
     description: "Para negocios con más volumen y más de una cámara.",
-    features: ["3 cámaras simultáneas", "Cola ilimitada", "Analytics básicos", "Soporte por email"],
+    mode: "Con alta inicial",
+    note: "Desde 999€ de alta (hardware + instalación)",
+    features: ["3 cámaras simultáneas", "Cola ilimitada", "Informes de actividad", "Soporte por email"],
     cta: "Contactar ahora",
     highlighted: true,
   },
@@ -21,7 +25,9 @@ const PLANS = [
     name: "Business",
     price: "99",
     description: "Máximo rendimiento y soporte prioritario.",
-    features: ["4 cámaras simultáneas", "Cola ilimitada", "Analytics avanzados", "Soporte prioritario"],
+    mode: "Con alta inicial",
+    note: "Desde 1149€ de alta (hardware + instalación)",
+    features: ["4 cámaras simultáneas", "Cola ilimitada", "Informes avanzados", "Soporte prioritario"],
     cta: "Contactar ahora",
     highlighted: false,
   },
@@ -32,9 +38,9 @@ export function Pricing() {
     <section id="precios" className="py-24 px-6">
       <div className="max-w-6xl mx-auto">
         <FadeIn className="text-center mb-16">
-          <span className="text-xs font-semibold text-green-600 uppercase tracking-widest">Precios</span>
+          <span className="text-xs font-semibold text-emerald-700 uppercase tracking-widest">Precios</span>
           <h2 className="text-4xl font-bold text-gray-900 mt-3">Sin letra pequeña</h2>
-          <p className="text-gray-500 mt-4">Incluye despliegue e integración con hardware desde el primer día.</p>
+          <p className="text-slate-500 mt-4">Dos modalidades: cuota + alta inicial o hardware incluido con permanencia.</p>
         </FadeIn>
 
         <div className="grid md:grid-cols-3 gap-6 items-start">
@@ -43,18 +49,21 @@ export function Pricing() {
               <div
                 className={`rounded-2xl p-8 border h-full flex flex-col transition-all duration-300 ${
                   plan.highlighted
-                    ? "bg-green-500 border-green-500 shadow-xl shadow-green-200 md:scale-105"
-                    : "bg-white border-gray-100 hover:border-green-200 hover:shadow-lg hover:shadow-green-50"
+                    ? "bg-slate-900 border-slate-900 shadow-xl shadow-slate-300/40 md:scale-105"
+                    : "bg-white border-slate-100 hover:border-emerald-200 hover:shadow-lg hover:shadow-emerald-100/40"
                 }`}
               >
                 {plan.highlighted && (
-                  <span className="inline-block text-xs font-bold bg-white/20 text-white px-3 py-1 rounded-full mb-4 self-start">
+                  <span className="inline-block text-xs font-bold bg-emerald-400/20 text-emerald-200 px-3 py-1 rounded-full mb-4 self-start">
                     Más popular
                   </span>
                 )}
                 <h3 className={`text-lg font-bold mb-1 ${plan.highlighted ? "text-white" : "text-gray-900"}`}>
                   {plan.name}
                 </h3>
+                <p className={`text-xs mb-2 uppercase tracking-wide ${plan.highlighted ? "text-emerald-200" : "text-emerald-700"}`}>
+                  {plan.mode}
+                </p>
                 <p className={`text-sm mb-6 ${plan.highlighted ? "text-white/80" : "text-gray-500"}`}>
                   {plan.description}
                 </p>
@@ -72,7 +81,7 @@ export function Pricing() {
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-center gap-2.5 text-sm">
                       <svg
-                        className={`w-4 h-4 flex-shrink-0 ${plan.highlighted ? "text-white" : "text-green-500"}`}
+                        className={`w-4 h-4 shrink-0 ${plan.highlighted ? "text-emerald-200" : "text-emerald-500"}`}
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -83,12 +92,16 @@ export function Pricing() {
                   ))}
                 </ul>
 
+                <p className={`text-xs mb-4 ${plan.highlighted ? "text-white/70" : "text-slate-500"}`}>
+                  {plan.note}
+                </p>
+
                 <a
                   href="#contacto"
                   className={`block text-center py-3 rounded-full text-sm font-semibold transition-colors ${
                     plan.highlighted
-                      ? "bg-white text-green-600 hover:bg-green-50"
-                      : "bg-green-500 hover:bg-green-600 text-white"
+                      ? "bg-emerald-400 text-slate-900 hover:bg-emerald-300"
+                      : "bg-slate-900 hover:bg-slate-800 text-white"
                   }`}
                 >
                   {plan.cta}
